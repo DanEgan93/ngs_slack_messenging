@@ -1,29 +1,44 @@
 import os
 import requests
-import slack
-
-'''
-This is an example of how to send data to Slack webhooks in Python with the
-requests module.
-Detailed documentation of Slack Incoming Webhooks:
-https://api.slack.com/incoming-webhooks
-'''
-
 import json
 
 
-# Set the webhook_url to the one provided by Slack when you create the webhook at https://my.slack.com/services/new/incoming-webhook/
-webhook_url = 'https://hooks.slack.com/services/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'
-slack_data = {'text': "Hello, there"}
+test_auto_web = 'https://hooks.slack.com/services/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'
+external_mess_web = 'https://hooks.slack.com/services/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'
 
-response = requests.post(
-    webhook_url, data=json.dumps(slack_data),
-    headers={'Content-Type': 'application/json'}
-)
-if response.status_code != 200:
-    raise ValueError(
-        'Request to slack returned an error %s, the response is:\n%s'
-        % (response.status_code, response.text)
-)
+# #slack messaging in 
+def slack_message(message):
+	webhook_url = external_mess_web
+	slack_data = {'text': message}
 
+	response = requests.post(
+	    webhook_url, data=json.dumps(slack_data),
+	    headers={'Content-Type': 'application/json'}
+	)
+	if response.status_code != 200:
+	    raise ValueError(
+	        'Request to slack returned an error %s, the response is:\n%s'
+	        % (response.status_code, response.text)
+	)
+
+def slack_email(email_message):
+	webhook_url = external_mess_web
+	slack_data = {'text': email_message, 'as_user': True}
+
+	response = requests.post(
+	    webhook_url, data=json.dumps(slack_data),
+	    headers={'Content-Type': 'application/json'}
+	)
+	if response.status_code != 200:
+	    raise ValueError(
+	        'Request to slack returned an error %s, the response is:\n%s'
+	        % (response.status_code, response.text)
+	)
+
+
+pipeline = 'TSCP'
+ws = '000001'
+test = 'Run {}_{} complete'.format(ws,pipeline)
+slack_message(test)
+slack_email(email)
 
